@@ -135,7 +135,7 @@ npm install
 Create `.env`:
 
 ```env
-TV_IP=192.168.1.10
+TV_IP=192.168.X.XX
 PORT=3000
 ```
 
