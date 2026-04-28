@@ -1,30 +1,39 @@
-# 📺 LG TV Automation — One Tap TV for Grandma
+# 📺 LG webOS TV Automation — One Tap TV for Grandma
 
-> “She just wants to watch her TV… not learn technology.”
+> “She just wants to watch her TV… not learn how it works.”
 
-This project started with a simple, real problem:
+This started with something very real.
 
-My grandma couldn’t use the TV remote anymore.
-Opening apps, navigating menus, selecting channels — it was all too much.
+My grandma has a smart TV — an LG webOS TV.
+But for her, it wasn’t “smart” at all.
 
-So I built something simple:
+Opening apps, navigating menus, selecting channels…
+Every step required remembering buttons, directions, sequences.
 
-> **One tap → TV plays her channel**
+It became frustrating.
 
-No confusion. No menus. No frustration.
+So instead of teaching her technology, I changed the system.
+
+> **Now she just taps one button on her phone → TV starts playing**
+
+No remote. No confusion. No learning curve.
 
 ---
 
 ## ❤️ What This Does
 
-With a single trigger (phone shortcut / API / button), the system:
+With a single tap on her phone:
 
-* Turns control into **one action**
 * Opens SunNXT
-* Navigates automatically
-* Plays **Sun TV HD**
+* Automatically navigates the UI
+* Starts playing **Sun TV HD**
 
-All without the user needing to understand how the TV works.
+All without her needing to understand:
+
+* remotes
+* menus
+* apps
+* or “how smart TVs work”
 
 ---
 
@@ -32,40 +41,44 @@ All without the user needing to understand how the TV works.
 
 This is not about automation.
 
-This is about:
+It’s about:
 
-> Making technology invisible for someone who just wants comfort.
+> **Removing friction from everyday life for someone who shouldn’t have to deal with it.**
+
+Technology should adapt to people — not the other way around.
 
 ---
 
-## 🧠 How It Works (Simple View)
+## 🧠 How It Works (Real Flow)
 
 ```text
-Tap button / shortcut
+Tap button on phone
+        ↓
+HTTP request sent to local server
         ↓
 Backend API (/play)
         ↓
-TV control system
+LG webOS WebSocket control
         ↓
 SunNXT opens
         ↓
-Navigation runs
+Navigation executes (LEFT → DOWN → OK → RIGHT → OK)
         ↓
 Sun TV starts playing
 ```
 
 ---
 
-## 🏗️ Architecture (Technical)
+## 🏗️ Architecture
 
 ```text
-Trigger (Shortcut / API)
+Phone Shortcut (HTTP Trigger)
         ↓
-Express Server
+Express Server (/play)
         ↓
 Controller (playSunTV)
         ↓
-Sequence Runner
+Sequence Runner (deterministic execution)
         ↓
 WebSocket Client (LG webOS)
         ↓
@@ -79,7 +92,7 @@ TV executes commands
 * Node.js
 * Express.js
 * WebSocket (`ws`)
-* LG webOS local API
+* LG webOS local control API
 * dotenv
 
 ---
@@ -135,7 +148,7 @@ npm install
 Create `.env`:
 
 ```env
-TV_IP=192.168.X.XX
+TV_IP=192.168.x.xx
 PORT=3000
 ```
 
@@ -153,7 +166,7 @@ npm run dev
 
 ### POST `/play`
 
-Triggers full automation:
+Triggers the full automation flow:
 
 ```bash
 curl -X POST http://localhost:3000/play
@@ -163,7 +176,7 @@ curl -X POST http://localhost:3000/play
 
 ### GET `/health`
 
-Check system status:
+Check system readiness:
 
 ```bash
 curl http://localhost:3000/health
@@ -171,48 +184,46 @@ curl http://localhost:3000/health
 
 ---
 
-## 📱 How Grandma Uses It
+## 📱 How Grandma Uses It (Actual UX)
 
-### Option 1 — Phone Shortcut (Recommended)
+### ✅ Phone Shortcut (Primary)
 
-* Add a shortcut on phone:
-
-```text
-POST http://<your-ip>:3000/play
-```
-
-* Rename it:
+On her phone, there’s a single button:
 
 ```text
 📺 PLAY TV
 ```
 
-👉 One tap → done
+Behind the scenes:
+
+```text
+POST http://<your-local-ip>:3000/play
+```
+
+She taps it → TV starts.
+
+That’s it.
 
 ---
 
-### Option 2 — Phone Call (Advanced)
+### Optional Extensions
 
-* Call → triggers API → TV plays
-
----
-
-### Option 3 — Physical Button (Future)
-
-* Press button → TV starts
+* 📞 Phone call trigger
+* 🔘 Physical WiFi button
+* 🗣️ Voice command
 
 ---
 
 ## ⚠️ Important Notes
 
-* TV and server must be on **same WiFi**
-* First connection requires **manual pairing on TV**
-* Timing is critical — delays are tuned for reliability
+* TV and server must be on the **same WiFi network**
+* First connection requires **manual pairing on the TV**
+* Timing is critical — delays are tuned for stability
 * UI changes in apps may require updating navigation sequence
 
 ---
 
-## 🧠 Key Design Philosophy
+## 🧠 Design Philosophy
 
 This system is **not AI-driven**.
 
@@ -224,14 +235,14 @@ It is:
 
 Because for real users:
 
-> **Consistency matters more than intelligence**
+> **Consistency beats intelligence.**
 
 ---
 
 ## 🚧 Limitations
 
-* No direct API from SunNXT
-* Uses UI navigation (can break if app layout changes)
+* No official API from SunNXT
+* Relies on UI navigation (can break if app layout changes)
 * Requires local network setup
 
 ---
@@ -239,29 +250,26 @@ Because for real users:
 ## 🔮 Future Improvements
 
 * Voice trigger (“Play TV”)
-* State detection (smart recovery)
-* Multi-channel support
-* Hardware button device
-* Android TV integration (better control APIs)
+* Smart state detection
+* Multi-channel presets
+* Dedicated hardware button
+* Android TV support (stronger APIs)
 
 ---
 
 ## 🙌 Why This Matters
 
-This isn’t just a project.
+This is more than a project.
 
 It’s about:
 
-* Helping someone feel independent again
-* Removing frustration from daily life
-* Making technology adapt to humans — not the other way around
+* Giving someone independence
+* Removing daily frustration
+* Making technology feel simple again
 
 ---
 
-## 🧾 Final Thought
-
-> If a system is too complex for the people who need it most, it has already failed.
-
-This project tries to fix that — one tap at a time.
+This is a small step toward fixing that —
+one tap at a time.
 
 ---
